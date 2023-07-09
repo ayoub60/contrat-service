@@ -50,8 +50,6 @@ pipeline {
                                  type: 'pom']
                         ]
                 )
-            }
-            steps{
                 dir('contrat-service-dto') {
                     nexusArtifactUploader(
                             nexusVersion: 'nexus3',
