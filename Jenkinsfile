@@ -35,6 +35,7 @@ pipeline {
         }
 
         stage('Push to nexus'){
+
             steps{
                 nexusArtifactUploader(
                         nexusVersion: 'nexus3',
@@ -50,7 +51,7 @@ pipeline {
                                  type: 'pom']
                         ]
                 )
-
+                def modules = ['contrat-service-dto', 'module2']
                 dir('contrat-service-dto') {
                     nexusArtifactUploader(
                             nexusVersion: 'nexus3',
