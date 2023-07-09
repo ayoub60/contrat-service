@@ -35,142 +35,163 @@ pipeline {
         }
 
         stage('Push to nexus'){
-
-            steps{
-                nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                        groupId: 'ma.sirh.tassyircom',
-                        version: "${version}",
-                        repository: "${SNAP_REPO}",
-                        credentialsId: "${NEXUS_LOGIN}",
-                        artifacts: [
-                                [artifactId: 'contrat-service',
-                                 file: 'pom.xml',
-                                 type: 'pom']
-                        ]
-                )
-                def modules = ['contrat-service-dto', 'module2']
-                dir('contrat-service-dto') {
-                    nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                            groupId: 'ma.sirh.tassyircom',
-                            version: "${version}",
-                            repository: "${SNAP_REPO}",
-                            credentialsId: "${NEXUS_LOGIN}",
-                            artifacts: [
-                                    [artifactId: 'contrat-service-dto',
-                                     file: 'target/contrat-service-dto-1.0.0-SNAPSHOT.jar',
-                                     type: 'jar']
-                            ]
-                    )
-                }
-
-                dir('contrat-domain') {
-                    nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                            groupId: 'ma.sirh.tassyircom',
-                            version: "${version}",
-                            repository: "${SNAP_REPO}",
-                            credentialsId: "${NEXUS_LOGIN}",
-                            artifacts: [
-                                    [artifactId: 'contrat-domain',
-                                     file: 'pom.xml',
-                                     type: 'pom']
-                            ]
-                    )
-                    dir('contrat-application-service') {
-                        nexusArtifactUploader(
-                                nexusVersion: 'nexus3',
-                                protocol: 'http',
-                                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                                groupId: 'ma.sirh.tassyircom',
-                                version: "${version}",
-                                repository: "${SNAP_REPO}",
-                                credentialsId: "${NEXUS_LOGIN}",
-                                artifacts: [
-                                        [artifactId: 'contrat-application-service',
-                                         file: 'target/contrat-application-service-1.0.0-SNAPSHOT.jar',
-                                         type: 'jar']
-                                ]
-                        )
+            steps {
+                script {
+                    def modules = sh(
+                            script: "${maven}/bin/mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
+                            returnStdout: true
+                    ).trim().split('\n')
+                    for (def module in modules) {
+                        dir(module) {
+                            // Determine the packaging type of the module
+                            def packaging = sh(
+                                    script: "${maven}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
+                                    returnStdout: true
+                            ).trim()
+                            if (packaging == 'pom') {
+                                echo 'Project pom'
+                            } else {
+                                echo 'Project jar'
+                            }
+                        }
                     }
-
-                    dir('contrat-domain-core') {
-                        nexusArtifactUploader(
-                                nexusVersion: 'nexus3',
-                                protocol: 'http',
-                                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                                groupId: 'ma.sirh.tassyircom',
-                                version: "${version}",
-                                repository: "${SNAP_REPO}",
-                                credentialsId: "${NEXUS_LOGIN}",
-                                artifacts: [
-                                        [artifactId: 'contrat-domain-core',
-                                         file: 'target/contrat-domain-core-1.0.0-SNAPSHOT.jar',
-                                         type: 'jar']
-                                ]
-                        )
-                    }
-
                 }
-                dir('contrat-messaging') {
-                    nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                            groupId: 'ma.sirh.tassyircom',
-                            version: "${version}",
-                            repository: "${SNAP_REPO}",
-                            credentialsId: "${NEXUS_LOGIN}",
-                            artifacts: [
-                                    [artifactId: 'contrat-messaging',
-                                     file: 'target/contrat-messaging-1.0.0-SNAPSHOT.jar',
-                                     type: 'jar']
-                            ]
-                    )
-                }
-
-                dir('contrat-rest') {
-                    nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                            groupId: 'ma.sirh.tassyircom',
-                            version: "${version}",
-                            repository: "${SNAP_REPO}",
-                            credentialsId: "${NEXUS_LOGIN}",
-                            artifacts: [
-                                    [artifactId: 'contrat-rest',
-                                     file: 'target/contrat-rest-1.0.0-SNAPSHOT.jar',
-                                     type: 'jar']
-                            ]
-                    )
-                }
-
-                dir('contrat-container') {
-                    nexusArtifactUploader(
-                            nexusVersion: 'nexus3',
-                            protocol: 'http',
-                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                            groupId: 'ma.sirh.tassyircom',
-                            version: "${version}",
-                            repository: "${SNAP_REPO}",
-                            credentialsId: "${NEXUS_LOGIN}",
-                            artifacts: [
-                                    [artifactId: 'contrat-container',
-                                     file: 'target/contrat-container-1.0.0-SNAPSHOT.jar',
-                                     type: 'jar']
-                            ]
-                    )
-                }
-
             }
+//            steps{
+//                nexusArtifactUploader(
+//                        nexusVersion: 'nexus3',
+//                        protocol: 'http',
+//                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                        groupId: 'ma.sirh.tassyircom',
+//                        version: "${version}",
+//                        repository: "${SNAP_REPO}",
+//                        credentialsId: "${NEXUS_LOGIN}",
+//                        artifacts: [
+//                                [artifactId: 'contrat-service',
+//                                 file: 'pom.xml',
+//                                 type: 'pom']
+//                        ]
+//                )
+//                def modules = ['contrat-service-dto', 'module2']
+//                dir('contrat-service-dto') {
+//                    nexusArtifactUploader(
+//                            nexusVersion: 'nexus3',
+//                            protocol: 'http',
+//                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                            groupId: 'ma.sirh.tassyircom',
+//                            version: "${version}",
+//                            repository: "${SNAP_REPO}",
+//                            credentialsId: "${NEXUS_LOGIN}",
+//                            artifacts: [
+//                                    [artifactId: 'contrat-service-dto',
+//                                     file: 'target/contrat-service-dto-1.0.0-SNAPSHOT.jar',
+//                                     type: 'jar']
+//                            ]
+//                    )
+//                }
+//
+//                dir('contrat-domain') {
+//                    nexusArtifactUploader(
+//                            nexusVersion: 'nexus3',
+//                            protocol: 'http',
+//                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                            groupId: 'ma.sirh.tassyircom',
+//                            version: "${version}",
+//                            repository: "${SNAP_REPO}",
+//                            credentialsId: "${NEXUS_LOGIN}",
+//                            artifacts: [
+//                                    [artifactId: 'contrat-domain',
+//                                     file: 'pom.xml',
+//                                     type: 'pom']
+//                            ]
+//                    )
+//                    dir('contrat-application-service') {
+//                        nexusArtifactUploader(
+//                                nexusVersion: 'nexus3',
+//                                protocol: 'http',
+//                                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                                groupId: 'ma.sirh.tassyircom',
+//                                version: "${version}",
+//                                repository: "${SNAP_REPO}",
+//                                credentialsId: "${NEXUS_LOGIN}",
+//                                artifacts: [
+//                                        [artifactId: 'contrat-application-service',
+//                                         file: 'target/contrat-application-service-1.0.0-SNAPSHOT.jar',
+//                                         type: 'jar']
+//                                ]
+//                        )
+//                    }
+//
+//                    dir('contrat-domain-core') {
+//                        nexusArtifactUploader(
+//                                nexusVersion: 'nexus3',
+//                                protocol: 'http',
+//                                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                                groupId: 'ma.sirh.tassyircom',
+//                                version: "${version}",
+//                                repository: "${SNAP_REPO}",
+//                                credentialsId: "${NEXUS_LOGIN}",
+//                                artifacts: [
+//                                        [artifactId: 'contrat-domain-core',
+//                                         file: 'target/contrat-domain-core-1.0.0-SNAPSHOT.jar',
+//                                         type: 'jar']
+//                                ]
+//                        )
+//                    }
+//
+//                }
+//                dir('contrat-messaging') {
+//                    nexusArtifactUploader(
+//                            nexusVersion: 'nexus3',
+//                            protocol: 'http',
+//                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                            groupId: 'ma.sirh.tassyircom',
+//                            version: "${version}",
+//                            repository: "${SNAP_REPO}",
+//                            credentialsId: "${NEXUS_LOGIN}",
+//                            artifacts: [
+//                                    [artifactId: 'contrat-messaging',
+//                                     file: 'target/contrat-messaging-1.0.0-SNAPSHOT.jar',
+//                                     type: 'jar']
+//                            ]
+//                    )
+//                }
+//
+//                dir('contrat-rest') {
+//                    nexusArtifactUploader(
+//                            nexusVersion: 'nexus3',
+//                            protocol: 'http',
+//                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                            groupId: 'ma.sirh.tassyircom',
+//                            version: "${version}",
+//                            repository: "${SNAP_REPO}",
+//                            credentialsId: "${NEXUS_LOGIN}",
+//                            artifacts: [
+//                                    [artifactId: 'contrat-rest',
+//                                     file: 'target/contrat-rest-1.0.0-SNAPSHOT.jar',
+//                                     type: 'jar']
+//                            ]
+//                    )
+//                }
+//
+//                dir('contrat-container') {
+//                    nexusArtifactUploader(
+//                            nexusVersion: 'nexus3',
+//                            protocol: 'http',
+//                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                            groupId: 'ma.sirh.tassyircom',
+//                            version: "${version}",
+//                            repository: "${SNAP_REPO}",
+//                            credentialsId: "${NEXUS_LOGIN}",
+//                            artifacts: [
+//                                    [artifactId: 'contrat-container',
+//                                     file: 'target/contrat-container-1.0.0-SNAPSHOT.jar',
+//                                     type: 'jar']
+//                            ]
+//                    )
+//                }
+//
+//            }
 
             post {
                 success {
