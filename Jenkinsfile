@@ -34,7 +34,7 @@ pipeline {
             }
         }
 
-        stage('Push nexus 11'){
+        stage('Push nexus'){
             steps{
                 nexusArtifactUploader(
                         nexusVersion: 'nexus3',
