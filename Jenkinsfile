@@ -172,6 +172,7 @@ pipeline {
 
             }
 
+
             post {
                 success {
                     echo 'Push to nexus avec succéss ...'
