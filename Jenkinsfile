@@ -21,14 +21,13 @@ pipeline {
             steps {
                 script {
                     version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-
                     echo "Project version: ${version}"
                 }
             }
         }
         stage('Build POM parent'){
             steps{
-                sh 'mvn -s settings.xml clean install'
+                sh 'mvn -s settings.xml clean package'
             }
 
             post {
