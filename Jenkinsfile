@@ -26,37 +26,37 @@ pipeline {
                 }
             }
         }
-//        stage('Build POM parent'){
-//            steps{
-//                sh 'mvn -s settings.xml clean install'
-//            }
-//
-//            post {
-//                success {
-//                    echo 'Build Succefuly ...'
-//                }
-//            }
-//        }
-        stage('Upload artifact POM parent') {
+        stage('Build POM parent'){
             steps{
-                nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                        groupId: 'ma.sirh.tassyircom',
-                        version: "${version}",
-                        repository: "${SNAP_REPO}",
-                        credentialsId: "${NEXUS_LOGIN}",
-                        artifacts: [
-                                [artifactId: 'contrat-service',
-                                 file: 'pom.xml',
-                                 type: 'pom']
-                        ]
-                )
-//                }
+                sh 'mvn -s settings.xml clean install'
+            }
 
+            post {
+                success {
+                    echo 'Build Succefuly ...'
+                }
             }
         }
+//        stage('Upload artifact POM parent') {
+//            steps{
+//                nexusArtifactUploader(
+//                        nexusVersion: 'nexus3',
+//                        protocol: 'http',
+//                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+//                        groupId: 'ma.sirh.tassyircom',
+//                        version: "${version}",
+//                        repository: "${SNAP_REPO}",
+//                        credentialsId: "${NEXUS_LOGIN}",
+//                        artifacts: [
+//                                [artifactId: 'contrat-service',
+//                                 file: 'pom.xml',
+//                                 type: 'pom']
+//                        ]
+//                )
+////                }
+//
+//            }
+//        }
 
         stage('Build All modules'){
             steps{
