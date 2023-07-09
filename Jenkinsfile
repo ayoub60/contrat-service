@@ -91,6 +91,21 @@ pipeline {
 //
                 dir('contrat-messaging') {
                     sh 'mvn -s ../settings.xml clean install'
+
+                    nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                            groupId: 'ma.sirh.tassyircom',
+                            version: "${version}",
+                            repository: "${SNAP_REPO}",
+                            credentialsId: "${NEXUS_LOGIN}",
+                            artifacts: [
+                                    [artifactId: 'contrat-messaging',
+                                     file: 'target/contrat-messaging-1.0.0-SNAPSHOT.jar',
+                                     type: 'jar']
+                            ]
+                    )
                 }
 //
 //                dir('contrat-rest') {
