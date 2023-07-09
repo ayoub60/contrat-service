@@ -42,7 +42,7 @@ pipeline {
                             credentialsId: "${NEXUS_LOGIN}",
                             artifacts: [
                                     [artifactId: 'contrat-service-dto',
-                                     file: 'target/**.jar',
+                                     file: 'target/contrat-service-dto-1.0.0-SNAPSHOT.jar',
                                      type: 'jar']
                             ]
                     )
