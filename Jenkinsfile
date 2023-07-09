@@ -30,6 +30,20 @@ pipeline {
             steps{
                 dir('contrat-service-dto') {
                     sh 'mvn -s ../settings.xml clean install'
+                    nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                            groupId: 'ma.sirh.tassyircom',
+                            version: "${version}",
+                            repository: "${SNAP_REPO}",
+                            credentialsId: "${NEXUS_LOGIN}",
+                            artifacts: [
+                                    [artifactId: 'contrat-service-dto',
+                                     file: 'target/**/*.jar',
+                                     type: 'pom']
+                            ]
+                    )
                 }
 
                 dir('contrat-domain') {
@@ -64,25 +78,5 @@ pipeline {
                 }
             }
         }
-//        stage('Upload artifact') {
-//           steps{
-//                    nexusArtifactUploader(
-//                            nexusVersion: 'nexus3',
-//                            protocol: 'http',
-//                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-//                            groupId: 'ma.sirh.tassyircom',
-//                            version: "${version}",
-//                            repository: "${SNAP_REPO}",
-//                            credentialsId: "${NEXUS_LOGIN}",
-//                            artifacts: [
-//                                    [artifactId: 'sirh-tassyircom',
-//                                     file: 'pom.xml',
-//                                     type: 'pom']
-//                            ]
-//                    )
-////                }
-//
-//            }
-//        }
     }
 }
