@@ -30,7 +30,7 @@ pipeline {
             steps{
                 dir('contrat-service-dto') {
                     sh 'mvn -s ../settings.xml clean install'
-                    sh 'ls'
+                    sh 'ls target/'
                    //archiveArtifacts artifacts: '**/target/*.jar'
                     nexusArtifactUploader(
                             nexusVersion: 'nexus3',
@@ -42,7 +42,7 @@ pipeline {
                             credentialsId: "${NEXUS_LOGIN}",
                             artifacts: [
                                     [artifactId: 'contrat-service-dto',
-                                     file: 'target/*.jar',
+                                     file: 'target/**.jar',
                                      type: 'jar']
                             ]
                     )
