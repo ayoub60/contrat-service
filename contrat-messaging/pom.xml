@@ -14,5 +14,11 @@
     <properties>
 
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>ma.sirh.tassyircom</groupId>
+            <artifactId>contrat-service-dto</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
