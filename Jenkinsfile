@@ -80,29 +80,26 @@ pipeline {
                     )
                 }
 
-                dir('contrat-domain') {
-                    sh 'mvn -s ../settings.xml clean install'
-                }
+//                dir('contrat-domain') {
+//                    sh 'mvn -s ../settings.xml clean install'
+//                }
 
-                dir('contrat-domain') {
-                    sh 'mvn -s ../settings.xml clean install'
-                }
 
-                dir('contrat-repository') {
-                    sh 'mvn -s ../settings.xml clean install'
-                }
-
+//                dir('contrat-repository') {
+//                    sh 'mvn -s ../settings.xml clean install'
+//                }
+//
                 dir('contrat-messaging') {
                     sh 'mvn -s ../settings.xml clean install'
                 }
-
-                dir('contrat-rest') {
-                    sh 'mvn -s ../settings.xml clean install'
-                }
-
-                dir('contrat-container') {
-                    sh 'mvn -s ../settings.xml clean install'
-                }
+//
+//                dir('contrat-rest') {
+//                    sh 'mvn -s ../settings.xml clean install'
+//                }
+//
+//                dir('contrat-container') {
+//                    sh 'mvn -s ../settings.xml clean install'
+//                }
 
             }
 
