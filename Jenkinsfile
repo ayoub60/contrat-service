@@ -38,14 +38,14 @@ pipeline {
             steps {
                 script {
                     def modules = sh(
-                            script: "${maven}/bin/mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
+                            script: "mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
                             returnStdout: true
                     ).trim().split('\n')
                     for (def module in modules) {
                         dir(module) {
                             // Determine the packaging type of the module
                             def packaging = sh(
-                                    script: "${maven}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
+                                    script: "mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
                                     returnStdout: true
                             ).trim()
                             if (packaging == 'pom') {
