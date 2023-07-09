@@ -146,6 +146,23 @@ pipeline {
                     )
                 }
 
+                dir('contrat-rest') {
+                    nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                            groupId: 'ma.sirh.tassyircom',
+                            version: "${version}",
+                            repository: "${SNAP_REPO}",
+                            credentialsId: "${NEXUS_LOGIN}",
+                            artifacts: [
+                                    [artifactId: 'contrat-rest',
+                                     file: 'target/contrat-rest-1.0.0-SNAPSHOT.jar',
+                                     type: 'jar']
+                            ]
+                    )
+                }
+
             }
 
             post {
