@@ -77,6 +77,24 @@ pipeline {
                     )
                 }
 
+                dir('contrat-domain') {
+                    nexusArtifactUploader(
+                            nexusVersion: 'nexus3',
+                            protocol: 'http',
+                            nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                            groupId: 'ma.sirh.tassyircom',
+                            version: "${version}",
+                            repository: "${SNAP_REPO}",
+                            credentialsId: "${NEXUS_LOGIN}",
+                            artifacts: [
+                                    [artifactId: 'contrat-domain',
+                                     file: 'pom.xml',
+                                     type: 'pom']
+                            ]
+                    )
+
+                }
+
 //
                 dir('contrat-messaging') {
                     nexusArtifactUploader(
