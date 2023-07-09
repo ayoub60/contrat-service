@@ -92,6 +92,39 @@ pipeline {
                                      type: 'pom']
                             ]
                     )
+                    dir('contrat-application-service') {
+                        nexusArtifactUploader(
+                                nexusVersion: 'nexus3',
+                                protocol: 'http',
+                                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                                groupId: 'ma.sirh.tassyircom',
+                                version: "${version}",
+                                repository: "${SNAP_REPO}",
+                                credentialsId: "${NEXUS_LOGIN}",
+                                artifacts: [
+                                        [artifactId: 'contrat-application-service',
+                                         file: 'target/contrat-application-service-1.0.0-SNAPSHOT.jar',
+                                         type: 'jar']
+                                ]
+                        )
+                    }
+
+                    dir('contrat-domain-core') {
+                        nexusArtifactUploader(
+                                nexusVersion: 'nexus3',
+                                protocol: 'http',
+                                nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                                groupId: 'ma.sirh.tassyircom',
+                                version: "${version}",
+                                repository: "${SNAP_REPO}",
+                                credentialsId: "${NEXUS_LOGIN}",
+                                artifacts: [
+                                        [artifactId: 'contrat-domain-core',
+                                         file: 'target/contrat-domain-core-1.0.0-SNAPSHOT.jar',
+                                         type: 'jar']
+                                ]
+                        )
+                    }
 
                 }
 
