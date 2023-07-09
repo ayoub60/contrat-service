@@ -41,7 +41,7 @@ pipeline {
                             artifacts: [
                                     [artifactId: 'contrat-service-dto',
                                      file: 'target/**/*.jar',
-                                     type: 'pom']
+                                     type: 'jar']
                             ]
                     )
                 }
