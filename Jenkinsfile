@@ -17,16 +17,13 @@ pipeline {
         version = ""
     }
     stages {
-        stage('Read POM') {
-            steps {
+
+        stage('Build POM parent'){
+            steps{
                 script {
                     version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     echo "Project version: ${version}"
                 }
-            }
-        }
-        stage('Build POM parent'){
-            steps{
                 sh 'mvn -s settings.xml clean package'
             }
 
@@ -36,7 +33,8 @@ pipeline {
                 }
             }
         }
-        stage('Upload artifact POM parent') {
+
+        stage('Push to nexus'){
             steps{
                 nexusArtifactUploader(
                         nexusVersion: 'nexus3',
@@ -52,12 +50,7 @@ pipeline {
                                  type: 'pom']
                         ]
                 )
-//                }
-
             }
-        }
-
-        stage('Build All modules'){
             steps{
                 dir('contrat-service-dto') {
                     nexusArtifactUploader(
@@ -126,8 +119,6 @@ pipeline {
                     }
 
                 }
-
-//
                 dir('contrat-messaging') {
                     nexusArtifactUploader(
                             nexusVersion: 'nexus3',
@@ -183,7 +174,7 @@ pipeline {
 
             post {
                 success {
-                    echo 'Build Succefuly ...'
+                    echo 'Push to nexus avec succéss ...'
                 }
             }
         }
