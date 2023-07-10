@@ -54,6 +54,8 @@ pipeline {
                             " -DuniqueVersion=false " +
                             " -DretryFailedDeploymentCount=3 " +
                             " -DskipTests " +
+                            "-DnexusUsername=${NEXUS_USER} " +
+                            "-DnexusPassword=${NEXUS_PASS}"
                             " -DupdateReleaseInfo=true " +
                             " -Dmaven.deploy.skip=false " +
                             " -Dmaven.test.skip=true " +
