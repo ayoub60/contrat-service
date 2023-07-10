@@ -50,7 +50,13 @@ pipeline {
                                     returnStdout: true
                             ).trim()
                             if (packaging == 'pom') {
-                                echo 'Project pom'
+                                def pomContent1 = readFile('pom.xml')
+                                def submodules = pomContent1.readLines().findAll { it =~ /<module>/ }
+                                        .collect { it.replace('<module>', '').replace('</module>', '').trim() }
+                                echo 'Project pom';
+                                for (def submodule in submodules) {
+                                    echo "Project ${submodule}";
+                                }
                             } else {
                                 echo 'Project jar'
                             }
