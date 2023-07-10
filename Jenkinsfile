@@ -38,7 +38,7 @@ pipeline {
                 dir("contrat-service-dto") {
                     // Build and package the submodule using Maven
                     // Upload the JAR and POM artifacts to Nexus
-                    sh "ls /target"
+                    sh "ls"
                     sh "mvn deploy:deploy-file " +
                             "-Durl=${NEXUSIP}:${NEXUSPORT} " +
                             "-DrepositoryId=nexus " +
