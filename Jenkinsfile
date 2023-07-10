@@ -34,7 +34,6 @@ pipeline {
             }
         }
 
-
         stage('Push to nexus'){
             steps{
                 nexusArtifactUploader(
