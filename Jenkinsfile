@@ -38,28 +38,28 @@ pipeline {
                 dir("contrat-service-dto") {
                     // Build and package the submodule using Maven
                     // Upload the JAR and POM artifacts to Nexus
-                    sh "ls"
+                    //sh "ls"
                     sh "mvn deploy:deploy-file " +
-                            "-Durl=${NEXUSIP}:${NEXUSPORT} " +
+                            " -Durl=${NEXUSIP}:${NEXUSPORT} " +
                             "-DrepositoryId=nexus " +
                             "-Dfile=target/contrat-service-dto-1.0.0-SNAPSHOT.jar" +
-                            "-DgroupId=ma.sirh.tassyircom " +
-                            "-DartifactId=contrat-service-dto" +
-                            "-Dversion=1.0.0-SNAPSHOT " +
-                            "-Dpackaging=jar " +
-                            "-DgeneratePom=true " +
-                            "-DpomFile=pom.xml " +
-                            "-DuniqueVersion=false " +
-                            "-DretryFailedDeploymentCount=3 " +
-                            "-DskipTests " +
-                            "-DupdateReleaseInfo=true " +
-                            "-Dmaven.deploy.skip=false " +
-                            "-Dmaven.test.skip=true " +
-                            "-Dmaven.install.skip=true " +
-                            "-Dmaven.compile.skip=true " +
-                            "-s ../settings.xml " +
-                            "-X -e " +
-                            "-B"
+                            " -DgroupId=ma.sirh.tassyircom " +
+                            " -DartifactId=contrat-service-dto" +
+                            " -Dversion=1.0.0-SNAPSHOT " +
+                            " -Dpackaging=jar " +
+                            " -DgeneratePom=true " +
+                            " -DpomFile=pom.xml " +
+                            " -DuniqueVersion=false " +
+                            " -DretryFailedDeploymentCount=3 " +
+                            " -DskipTests " +
+                            " -DupdateReleaseInfo=true " +
+                            " -Dmaven.deploy.skip=false " +
+                            " -Dmaven.test.skip=true " +
+                            " -Dmaven.install.skip=true " +
+                            " -Dmaven.compile.skip=true " +
+                            " -s ../settings.xml " +
+                            " -X -e " +
+                            " -B"
                 }
             }
         }
