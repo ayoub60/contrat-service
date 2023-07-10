@@ -20,10 +20,10 @@ pipeline {
 
         stage('Build POM parent'){
             steps{
-                script {
-                    version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-                    echo "Project version: ${version}"
-                }
+//                script {
+//                    version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+//                    echo "Project version: ${version}"
+//                }
                 sh 'mvn -s settings.xml clean package'
             }
 
@@ -38,11 +38,13 @@ pipeline {
             steps {
                 dir("contrat-service-dto") {
                     script {
+                        def mvnHome = tool 'MAVEN3'
                         // Build and package the submodule using Maven
                         // Upload the JAR and POM artifacts to Nexus
+                        sh "${mvnHome}/bin/mvn  clean package"
                         def mydir = sh "ls"
-                        echo "liste dir ${mydir}"
-                        sh "mvn deploy:deploy-file " +
+//                        echo "liste dir ${mydir}"
+                        sh "${mvnHome}/bin/mvn deploy:deploy-file " +
                                 " -Durl=http:/${NEXUSIP}:${NEXUSPORT} " +
                                 "-DrepositoryId=${SNAP_REPO} " +
                                 "-Dfile=target/contrat-service-dto-1.0.0-SNAPSHOT.jar" +
