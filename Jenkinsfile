@@ -62,7 +62,7 @@ pipeline {
                                         sh "mvn deploy:deploy-file " +
                                                 "-Durl=${NEXUSIP}:${NEXUSPORT} " +
                                                 "-DrepositoryId=nexus " +
-                                                "-Dfile=target/${submodule}${version}.jar " +
+                                                "-Dfile=target/${submodule}-${version}.jar " +
                                                 "-DgroupId=ma.sirh.tassyircom " +
                                                 "-DartifactId=${submodule} " +
                                                 "-Dversion=1.0.0-SNAPSHOT " +
@@ -90,10 +90,10 @@ pipeline {
                                     sh "mvn deploy:deploy-file " +
                                             "-Durl=${NEXUSIP}:${NEXUSPORT} " +
                                             "-DrepositoryId=nexus " +
-                                            "-Dfile=target/${module}${version}.jar " +
+                                            "-Dfile=target/${module}-${version}.jar " +
                                             "-DgroupId=ma.sirh.tassyircom " +
                                             "-DartifactId=${module} " +
-                                            "-Dversion=1.0.1-SNAPSHOT " +
+                                            "-Dversion=1.0.0-SNAPSHOT " +
                                             "-Dpackaging=jar " +
                                             "-DgeneratePom=true " +
                                             "-DpomFile=pom.xml " +
