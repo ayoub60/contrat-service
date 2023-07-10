@@ -38,23 +38,24 @@ pipeline {
             steps {
                 script {
                     def mvnHome = tool 'MAVEN3'
-                    def modules = sh(
-                            script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
-                            returnStdout: true
-                    ).trim().split('\n')
+//                    def modules1 = sh(
+//                            script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
+//                            returnStdout: true
+//                    ).trim().split('\n')
+                    def modules = sh script: 'mvn help:evaluate -Dexpression=project.modules -q -DforceStdout', returnStdout: true
                     for (def module in modules) {
-                        dir(module) {
-                            // Determine the packaging type of the module
-                            def packaging = sh(
-                                    script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
-                                    returnStdout: true
-                            ).trim()
-                            if (packaging == 'pom') {
-                                echo 'Project pom'
-                            } else {
-                                echo 'Project jar'
-                            }
-                        }
+//                        dir(module) {
+//                            // Determine the packaging type of the module
+//                            def packaging = sh(
+//                                    script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
+//                                    returnStdout: true
+//                            ).trim()
+//                            if (packaging == 'pom') {
+//                                echo 'Project pom'
+//                            } else {
+//                                echo 'Project jar'
+//                            }
+//                        }
                     }
                 }
             }
