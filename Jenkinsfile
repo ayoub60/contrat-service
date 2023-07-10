@@ -24,7 +24,7 @@ pipeline {
                     version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     echo "Project version: ${version}"
                 }
-                sh 'mvn -s settings.xml clean package'
+//                sh 'mvn -s settings.xml clean package'
             }
 
             post {
@@ -37,15 +37,16 @@ pipeline {
         stage('Push to nexus'){
             steps {
                 script {
+                    def mvnHome = tool 'MAVEN3'
                     def modules = sh(
-                            script: "mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
+                            script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
                             returnStdout: true
                     ).trim().split('\n')
                     for (def module in modules) {
                         dir(module) {
                             // Determine the packaging type of the module
                             def packaging = sh(
-                                    script: "mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
+                                    script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
                                     returnStdout: true
                             ).trim()
                             if (packaging == 'pom') {
