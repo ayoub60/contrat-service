@@ -43,8 +43,8 @@ pipeline {
                         def mydir = sh "ls"
                         echo "liste dir ${mydir}"
                         sh "mvn deploy:deploy-file " +
-                                " -Durl=http:/${NEXUSIP}:${NEXUSPORT} " +
-                                "-DrepositoryId=nexus " +
+                                " -Durl=https:/${NEXUSIP}:${NEXUSPORT} " +
+                                "-DrepositoryId=${SNAP_REPO} " +
                                 "-Dfile=target/contrat-service-dto-1.0.0-SNAPSHOT.jar" +
                                 " -DgroupId=ma.sirh.tassyircom " +
                                 " -DartifactId=contrat-service-dto" +
