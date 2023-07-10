@@ -87,6 +87,7 @@ pipeline {
                                 dir(module) {
                                     // Build and package the submodule using Maven
                                     // Upload the JAR and POM artifacts to Nexus
+                                    sh "ls /target"
                                     sh "mvn deploy:deploy-file " +
                                             "-Durl=${NEXUSIP}:${NEXUSPORT} " +
                                             "-DrepositoryId=nexus " +
@@ -105,7 +106,7 @@ pipeline {
                                             "-Dmaven.test.skip=true " +
                                             "-Dmaven.install.skip=true " +
                                             "-Dmaven.compile.skip=true " +
-                                            "-s ../../settings.xml " +
+                                            "-s ../settings.xml " +
                                             "-X -e " +
                                             "-B"
                                 }
