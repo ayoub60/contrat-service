@@ -33,12 +33,14 @@ pipeline {
                 }
             }
         }
+
         stage('Push to nexus'){
             steps {
                 dir("contrat-service-dto") {
                     // Build and package the submodule using Maven
                     // Upload the JAR and POM artifacts to Nexus
-                    //sh "ls"
+                    mydir = sh "ls"
+                    echo "liste dir ${mydir}"
                     sh "mvn deploy:deploy-file " +
                             " -Durl=${NEXUSIP}:${NEXUSPORT} " +
                             "-DrepositoryId=nexus " +
