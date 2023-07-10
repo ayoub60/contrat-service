@@ -24,7 +24,7 @@ pipeline {
                     version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
                     echo "Project version: ${version}"
                 }
-//                sh 'mvn -s settings.xml clean package'
+                sh 'mvn -s settings.xml clean package'
             }
 
             post {
@@ -56,9 +56,59 @@ pipeline {
                                 echo 'Project pom';
                                 for (def submodule in submodules) {
                                     echo "Project ${submodule}";
+                                    dir(submodule) {
+                                        // Build and package the submodule using Maven
+                                        // Upload the JAR and POM artifacts to Nexus
+                                        sh "mvn deploy:deploy-file " +
+                                                "-Durl=${NEXUSIP}:${NEXUSPORT} " +
+                                                "-DrepositoryId=nexus " +
+                                                "-Dfile=target/${submodule}${version}.jar " +
+                                                "-DgroupId=ma.sirh.tassyircom " +
+                                                "-DartifactId=${submodule} " +
+                                                "-Dversion=1.0.0-SNAPSHOT " +
+                                                "-Dpackaging=jar " +
+                                                "-DgeneratePom=true " +
+                                                "-DpomFile=pom.xml " +
+                                                "-DuniqueVersion=false " +
+                                                "-DretryFailedDeploymentCount=3 " +
+                                                "-DskipTests " +
+                                                "-DupdateReleaseInfo=true " +
+                                                "-Dmaven.deploy.skip=false " +
+                                                "-Dmaven.test.skip=true " +
+                                                "-Dmaven.install.skip=true " +
+                                                "-Dmaven.compile.skip=true " +
+                                                "-s ../../settings.xml " +
+                                                "-X -e " +
+                                                "-B"
+                                    }
                                 }
                             } else {
                                 echo 'Project jar'
+                                dir(module) {
+                                    // Build and package the submodule using Maven
+                                    // Upload the JAR and POM artifacts to Nexus
+                                    sh "mvn deploy:deploy-file " +
+                                            "-Durl=${NEXUSIP}:${NEXUSPORT} " +
+                                            "-DrepositoryId=nexus " +
+                                            "-Dfile=target/${module}${version}.jar " +
+                                            "-DgroupId=ma.sirh.tassyircom " +
+                                            "-DartifactId=${module} " +
+                                            "-Dversion=1.0.1-SNAPSHOT " +
+                                            "-Dpackaging=jar " +
+                                            "-DgeneratePom=true " +
+                                            "-DpomFile=pom.xml " +
+                                            "-DuniqueVersion=false " +
+                                            "-DretryFailedDeploymentCount=3 " +
+                                            "-DskipTests " +
+                                            "-DupdateReleaseInfo=true " +
+                                            "-Dmaven.deploy.skip=false " +
+                                            "-Dmaven.test.skip=true " +
+                                            "-Dmaven.install.skip=true " +
+                                            "-Dmaven.compile.skip=true " +
+                                            "-s ../../settings.xml " +
+                                            "-X -e " +
+                                            "-B"
+                                }
                             }
                         }
                     }
