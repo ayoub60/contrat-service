@@ -37,12 +37,13 @@ pipeline {
         stage('Push to nexus'){
             steps {
                 script {
-                    def mvnHome = tool 'MAVEN3'
 //                    def modules1 = sh(
 //                            script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.modules -q -DforceStdout",
 //                            returnStdout: true
 //                    ).trim().split('\n')
-                    def modules = sh script: 'mvn help:evaluate -Dexpression=project.modules -q -DforceStdout', returnStdout: true
+                    def pomContent = readFile('pom.xml')
+                    def modules = pomContent.readLines().findAll { it =~ /<module>/ }
+                            .collect { it.replace('<module>', '').replace('</module>', '').trim() }
                     for (def module in modules) {
 //                        dir(module) {
 //                            // Determine the packaging type of the module
