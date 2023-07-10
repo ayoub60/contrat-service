@@ -37,37 +37,14 @@ pipeline {
         stage('Push to nexus'){
             steps {
                 dir("contrat-service-dto") {
-                    script {
-                        def mvnHome = tool 'MAVEN3'
+
+                       // def mvnHome = tool 'MAVEN3'
                         // Build and package the submodule using Maven
                         // Upload the JAR and POM artifacts to Nexus
-                        sh "${mvnHome}/bin/mvn  clean package"
-                        def mydir = sh "ls"
+                        //def mydir = sh "ls"
 //                        echo "liste dir ${mydir}"
-                        sh "${mvnHome}/bin/mvn deploy:deploy-file " +
-                                " -Durl=http:/${NEXUSIP}:${NEXUSPORT} " +
-                                "-DrepositoryId=${SNAP_REPO} " +
-                                "-Dfile=target/contrat-service-dto-1.0.0-SNAPSHOT.jar" +
-                                " -DgroupId=ma.sirh.tassyircom " +
-                                " -DartifactId=contrat-service-dto" +
-                                " -Dversion=1.0.0-SNAPSHOT " +
-                                " -Dpackaging=jar " +
-                                " -DgeneratePom=true " +
-                                " -DpomFile=pom.xml " +
-                                " -DuniqueVersion=false " +
-                                " -DretryFailedDeploymentCount=3 " +
-                                " -DskipTests " +
-                                "-DnexusUsername=${NEXUS_USER} " +
-                                "-DnexusPassword=${NEXUS_PASS}"
-                                " -DupdateReleaseInfo=true " +
-                                " -Dmaven.deploy.skip=false " +
-                                " -Dmaven.test.skip=true " +
-                                " -Dmaven.install.skip=true " +
-                                " -Dmaven.compile.skip=true " +
-                                " -s ../settings.xml " +
-                                " -X -e " +
-                                " -B"
-                    }
+                        sh "mvn clean deploy"
+
                 }
             }
         }
