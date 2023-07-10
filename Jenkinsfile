@@ -43,18 +43,18 @@ pipeline {
                             .collect { it.replace('<module>', '').replace('</module>', '').trim() }
                     for (def module in modules) {
                         echo "Module ...${module}"
-//                        dir(module) {
-//                            // Determine the packaging type of the module
-//                            def packaging = sh(
-//                                    script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
-//                                    returnStdout: true
-//                            ).trim()
-//                            if (packaging == 'pom') {
-//                                echo 'Project pom'
-//                            } else {
-//                                echo 'Project jar'
-//                            }
-//                        }
+                        dir(module) {
+                            // Determine the packaging type of the module
+                            def packaging = sh(
+                                    script: "${mvnHome}/bin/mvn help:evaluate -Dexpression=project.packaging -q -DforceStdout",
+                                    returnStdout: true
+                            ).trim()
+                            if (packaging == 'pom') {
+                                echo 'Project pom'
+                            } else {
+                                echo 'Project jar'
+                            }
+                        }
                     }
                 }
             }
