@@ -37,33 +37,35 @@ pipeline {
         stage('Push to nexus'){
             steps {
                 dir("contrat-service-dto") {
-                    // Build and package the submodule using Maven
-                    // Upload the JAR and POM artifacts to Nexus
-                    mydir = sh "ls"
-                    echo "liste dir ${mydir}"
-                    sh "mvn deploy:deploy-file " +
-                            " -Durl=${NEXUSIP}:${NEXUSPORT} " +
-                            "-DrepositoryId=nexus " +
-                            "-Dfile=target/contrat-service-dto-1.0.0-SNAPSHOT.jar" +
-                            " -DgroupId=ma.sirh.tassyircom " +
-                            " -DartifactId=contrat-service-dto" +
-                            " -Dversion=1.0.0-SNAPSHOT " +
-                            " -Dpackaging=jar " +
-                            " -DgeneratePom=true " +
-                            " -DpomFile=pom.xml " +
-                            " -DuniqueVersion=false " +
-                            " -DretryFailedDeploymentCount=3 " +
-                            " -DskipTests " +
-                            "-DnexusUsername=${NEXUS_USER} " +
-                            "-DnexusPassword=${NEXUS_PASS}"
-                            " -DupdateReleaseInfo=true " +
-                            " -Dmaven.deploy.skip=false " +
-                            " -Dmaven.test.skip=true " +
-                            " -Dmaven.install.skip=true " +
-                            " -Dmaven.compile.skip=true " +
-                            " -s ../settings.xml " +
-                            " -X -e " +
-                            " -B"
+                    script {
+                        // Build and package the submodule using Maven
+                        // Upload the JAR and POM artifacts to Nexus
+                        def mydir = sh "ls"
+                        echo "liste dir ${mydir}"
+                        sh "mvn deploy:deploy-file " +
+                                " -Durl=${NEXUSIP}:${NEXUSPORT} " +
+                                "-DrepositoryId=nexus " +
+                                "-Dfile=target/contrat-service-dto-1.0.0-SNAPSHOT.jar" +
+                                " -DgroupId=ma.sirh.tassyircom " +
+                                " -DartifactId=contrat-service-dto" +
+                                " -Dversion=1.0.0-SNAPSHOT " +
+                                " -Dpackaging=jar " +
+                                " -DgeneratePom=true " +
+                                " -DpomFile=pom.xml " +
+                                " -DuniqueVersion=false " +
+                                " -DretryFailedDeploymentCount=3 " +
+                                " -DskipTests " +
+                                "-DnexusUsername=${NEXUS_USER} " +
+                                "-DnexusPassword=${NEXUS_PASS}"
+                                " -DupdateReleaseInfo=true " +
+                                " -Dmaven.deploy.skip=false " +
+                                " -Dmaven.test.skip=true " +
+                                " -Dmaven.install.skip=true " +
+                                " -Dmaven.compile.skip=true " +
+                                " -s ../settings.xml " +
+                                " -X -e " +
+                                " -B"
+                    }
                 }
             }
         }
