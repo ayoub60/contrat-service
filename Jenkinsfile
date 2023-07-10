@@ -37,7 +37,7 @@ pipeline {
         stage('Push to nexus'){
             steps {
                 script {
-
+                    def mvnHome = tool 'Maven3'
                     def pomContent = readFile('pom.xml')
                     def modules = pomContent.readLines().findAll { it =~ /<module>/ }
                             .collect { it.replace('<module>', '').replace('</module>', '').trim() }
