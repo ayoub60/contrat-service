@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @Builder
-public class ElementContrat {
+public class ElementContratRequest {
 
     private final String description;
     private final TypeElement typeElement;

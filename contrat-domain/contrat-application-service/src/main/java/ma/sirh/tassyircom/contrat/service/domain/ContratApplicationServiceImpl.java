@@ -36,7 +36,7 @@ public class ContratApplicationServiceImpl implements IContratApplicationService
         ContratCreatedEvent contratCreatedEvent = contratDomainService.createContrat(contrat);
         Contrat contratSaved = contratRepository.save(contrat);
         log.info(" Contrat d'id : {} sauvegardé avec success", contratSaved.getId());
-        // TODO: Aprés la création du commit de la transaction envoyer un message dans kafka
+        //TODO: Aprés la création du commit de la transaction envoyer un message dans kafka
         return contratMapper.mapContratToResponse(contratSaved);
     }
 

@@ -2,7 +2,7 @@ package ma.sirh.tassyircom.contrat.service.domain.mapper;
 
 import ma.sirh.tassyircom.contrat.service.domain.dto.ContratCreatedRequest;
 import ma.sirh.tassyircom.contrat.service.domain.dto.ContratResponse;
-import ma.sirh.tassyircom.contrat.service.domain.dto.ElementContrat;
+import ma.sirh.tassyircom.contrat.service.domain.dto.ElementContratRequest;
 import ma.sirh.tassyircom.contrat.service.domain.entity.Contrat;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -23,7 +23,7 @@ public class ContratMapper {
                 .build();
     }
 
-    private List<ma.sirh.tassyircom.contrat.service.domain.entity.ElementContrat> mapToElementContrat(List<ElementContrat> elementsContrat) {
+    private List<ma.sirh.tassyircom.contrat.service.domain.entity.ElementContrat> mapToElementContrat(List<ElementContratRequest> elementsContrat) {
         if (CollectionUtils.isEmpty(elementsContrat)) {
             return new ArrayList<>();
         }

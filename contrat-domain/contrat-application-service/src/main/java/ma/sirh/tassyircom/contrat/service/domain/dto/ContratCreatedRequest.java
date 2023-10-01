@@ -22,5 +22,5 @@ public class ContratCreatedRequest {
     private final LocalDate dateFin;
     @NotNull
     private final EmployeRequest employeRequest;
-    private final List<ElementContrat> elementsContrat;
+    private final List<ElementContratRequest> elementsContrat;
 }

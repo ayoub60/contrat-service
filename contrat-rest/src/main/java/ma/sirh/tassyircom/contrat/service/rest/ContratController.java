@@ -18,9 +18,8 @@ public class ContratController {
 
     @PostMapping
     public ContratResponse createContrat(@RequestBody ContratCreatedRequest contratCreatedRequest){
-        log.info(" Début Création du contrat");
-        ContratResponse contratResponse = contratApplicationService.createContrat(contratCreatedRequest);
-        return contratResponse;
+        log.info("Début de création du contrat");
+        return contratApplicationService.createContrat(contratCreatedRequest);
     }
     @GetMapping("/{contratId}")
     public ContratResponse getContratById(@PathVariable Long contratId){

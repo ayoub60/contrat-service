@@ -19,5 +19,5 @@ public class ContratResponse {
     private final LocalDate dateDebut;
     private final LocalDate dateFin;
     private final EmployeRequest employeRequest;
-    private final List<ElementContrat> elementsContrat;
+    private final List<ElementContratRequest> elementsContrat;
 }
