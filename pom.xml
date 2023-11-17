@@ -53,5 +53,7 @@
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
+
     </dependencyManagement>
+
 </project>
