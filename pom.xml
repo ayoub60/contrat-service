@@ -20,10 +20,12 @@
         <module>contrat-domain</module>
     </modules>
 
+
     <properties>
         <project.version>1.0.0-SNAPSHOT</project.version>
     </properties>
     <dependencyManagement>
+	
         <dependencies>
             <dependency>
                 <groupId>ma.sirh.tassyircom</groupId>
